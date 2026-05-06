@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "next-themes";
+import { StackProvider, StackTheme } from "@stackframe/stack";
+import { stackServerApp } from "@/stack/server";
 
 export const metadata: Metadata = {
   title: "Plantventory",
@@ -16,15 +18,19 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-full flex flex-col">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar />
-          {children}
-        </ThemeProvider>
+        <StackProvider app={stackServerApp}>
+          <StackTheme>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Navbar />
+              {children}
+            </ThemeProvider>
+          </StackTheme>
+        </StackProvider>
       </body>
     </html>
   );
