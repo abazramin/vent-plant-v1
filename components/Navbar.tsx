@@ -58,6 +58,7 @@ async function Navbar() {
               </>
             ) : (
               <>
+                <Button>{`Hello, ${user.displayName}`}</Button>
                 <Button
                   variant="ghost"
                   className="flex items-center gap-2"
