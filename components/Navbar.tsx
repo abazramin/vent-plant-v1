@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { HomeIcon, LogIn, LogOut, Sprout } from "lucide-react";
+import { HomeIcon, LogOut, Sprout } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
 import { stackServerApp } from "@/stack/server";
 import { UserButton } from "@stackframe/stack";
@@ -27,16 +27,16 @@ async function Navbar() {
 
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="ghost" className="flex items-center gap-2" asChild>
-              <Link href="/plants">
-                <Sprout className="w-4 h-4" />
-                <span className="hidden lg:inline">Plants</span>
+              <Link href="/">
+                <HomeIcon className="w-4 h-4" />
+                <span className="hidden lg:inline">Home</span>
               </Link>
             </Button>
 
             <Button variant="ghost" className="flex items-center gap-2" asChild>
-              <Link href="">
-                <HomeIcon className="w-4 h-4" />
-                <span className="hidden lg:inline">Home</span>
+              <Link href="/plants">
+                <Sprout className="w-4 h-4" />
+                <span className="hidden lg:inline">Plants</span>
               </Link>
             </Button>
 
