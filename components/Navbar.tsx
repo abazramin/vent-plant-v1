@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { HomeIcon, LogIn, LogOut, Sprout } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
 import { stackServerApp } from "@/stack/server";
+import { UserButton } from "@stackframe/stack";
 
 async function Navbar() {
   const user = await stackServerApp.getUser();
@@ -58,8 +59,8 @@ async function Navbar() {
               </>
             ) : (
               <>
-                <Button>{`Hello, ${user.displayName}`}</Button>
-                <Button
+                <UserButton />
+                {/* <Button
                   variant="ghost"
                   className="flex items-center gap-2"
                   asChild
@@ -68,7 +69,7 @@ async function Navbar() {
                     <LogIn className="w-4 h-4" />
                     <span className="hidden lg:inline">Sign Out</span>
                   </Link>
-                </Button>
+                </Button> */}
               </>
             )}
           </div>
