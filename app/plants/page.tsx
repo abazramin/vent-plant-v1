@@ -1,11 +1,11 @@
 import InventoryTable from "@/components/InventoryTable";
-import { stackServerApp } from "@/stack/server";
+import { stackServerApp, syncUser } from "@/stack/server";
 import { SignUp } from "@stackframe/stack";
-import React from "react";
 
 async function page() {
   const user = await stackServerApp.getUser();
   // const app = stackServerApp.urls;
+  await syncUser();
   return (
     <>
       {user ? (
