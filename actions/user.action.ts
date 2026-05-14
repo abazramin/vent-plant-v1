@@ -1,6 +1,6 @@
 "use server";
 
-import { stackServerApp } from "../../stack/server";
+import { stackServerApp } from "../stack/server";
 import { neon } from "@neondatabase/serverless";
 
 export async function getUserDetails(userId: string | undefined) {
