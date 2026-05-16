@@ -14,20 +14,26 @@ import {
 import { Input } from "./ui/input";
 import { Combobox } from "./ui/combo-box";
 import { useState } from "react";
+import { getPlants } from "@/actions/plantAction";
+import { useRouter } from "next/navigation";
 
-const Plants = [
-  {
-    id: 1,
-    name: "Rose",
-    category: "Flowering",
-    price: "$10.00",
-    stock: 50,
-  },
-];
+type Plants = Awaited<ReturnType<typeof getPlants>>;
 
-export default function TableDemo() {
+interface InventoryTableProps {
+  plants: Plants;
+}
+
+export default function InventoryTable({ plants }: InventoryTableProps) {
+  const router = useRouter();
+
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
+  const filteredPlants = plants?.userPlants?.filter(
+    (plant) =>
+      plant.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (selectedCategory === "" || plant.category === selectedCategory),
+  );
   return (
     <div className="w-full min-h-screen bg-muted/20">
       <div className="w-full h-screen flex flex-col bg-background p-6">
@@ -39,6 +45,8 @@ export default function TableDemo() {
             <Input
               placeholder="Filter plants..."
               className="pl-10 h-12 rounded-xl"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
 
@@ -68,7 +76,7 @@ export default function TableDemo() {
             </TableHeader>
 
             <TableBody>
-              {Plants.map((plant) => (
+              {filteredPlants?.map((plant) => (
                 <TableRow
                   key={plant.id}
                   className="transition-colors hover:bg-muted/40"
