@@ -76,18 +76,29 @@ export default function InventoryTable({ plants }: InventoryTableProps) {
             </TableHeader>
 
             <TableBody>
-              {filteredPlants?.map((plant) => (
-                <TableRow
-                  key={plant.id}
-                  className="transition-colors hover:bg-muted/40"
-                >
-                  <TableCell className="font-medium py-5">{plant.id}</TableCell>
-                  <TableCell>{plant.name}</TableCell>
-                  <TableCell>{plant.category}</TableCell>
-                  <TableCell>{plant.price}</TableCell>
-                  <TableCell>{plant.stock}</TableCell>
-                </TableRow>
-              ))}
+              {filteredPlants?.map((plant) => {
+                const slugifiedName = plant.name
+                  .toLowerCase()
+                  .replace(/\s+/g, "-");
+                const slug = `${plant.id}--${slugifiedName}`;
+                const planturl = `/plants/${slug}`;
+
+                return (
+                  <TableRow
+                    key={plant.id}
+                    onClick={() => router.push(planturl)}
+                    className="transition-colors hover:bg-muted/40"
+                  >
+                    <TableCell className="font-medium py-5">
+                      {plant.id}
+                    </TableCell>
+                    <TableCell>{plant.name}</TableCell>
+                    <TableCell>{plant.category}</TableCell>
+                    <TableCell>{plant.price}</TableCell>
+                    <TableCell>{plant.stock}</TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
 
             <TableFooter className="bg-muted/30">
