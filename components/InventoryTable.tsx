@@ -132,7 +132,6 @@ export default function InventoryTable({ plants }: InventoryTableProps) {
 
             <TableHeader className="bg-muted/50">
               <TableRow>
-                <TableHead className="font-semibold h-14">Plant ID</TableHead>
                 <TableHead className="font-semibold">Name</TableHead>
                 <TableHead className="font-semibold">Category</TableHead>
                 <TableHead className="font-semibold">Price</TableHead>
@@ -155,9 +154,6 @@ export default function InventoryTable({ plants }: InventoryTableProps) {
                     onClick={() => router.push(planturl)}
                     className="transition-colors hover:bg-muted/40"
                   >
-                    <TableCell className="font-medium py-5">
-                      {plant.id}
-                    </TableCell>
                     <TableCell>{plant.name}</TableCell>
                     <TableCell>{plant.category}</TableCell>
                     <TableCell>{plant.price}</TableCell>
