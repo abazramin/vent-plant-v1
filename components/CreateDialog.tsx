@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,7 +18,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { useState } from "react";
 import { Textarea } from "./ui/textarea";
-// import { createPlant } from "@/actions/plantAction";
+import { createPlant } from "@/actions/plantAction";
 import toast from "react-hot-toast";
 // import ImageUpload from "./ImageUpload";
 
@@ -38,8 +40,8 @@ export default function CreateDialog() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      // const newPlant = await createPlant(formData);
-      console.log("plant created: ", "");
+      const newPlant = await createPlant(formData);
+      console.log("plant created: ", newPlant);
       toast.success("Plant created successfully");
     } catch (error) {
       console.error("error creating plant", error);
