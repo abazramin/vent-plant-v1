@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { getUserId } from "./user.action";
 import { Prisma } from "@/src/generated/client";
+import { revalidatePath } from "next/dist/server/web/spec-extension/revalidate";
 
 export async function getPlants(searchTerm?: string) {
   try {
@@ -55,6 +56,44 @@ export async function createPlant(data: Prisma.PlantsCreateInput) {
     return newPlant;
   } catch (error) {
     console.error("Error Creating Plant:", error);
+    throw error;
+  }
+}
+
+export async function editPlant(
+  id: string, //identify which plant we are editing
+  data: Prisma.PlantsUpdateInput,
+) {
+  try {
+    const currentUserId = await getUserId();
+    const updatedPlant = await prisma.plants.update({
+      where: { id },
+      data: {
+        ...data,
+        userId: currentUserId,
+      },
+    });
+    revalidatePath("/plants");
+  } catch (error) {
+    console.error("Error updating plant:", error);
+    throw error;
+  }
+}
+
+export async function deletePlant(
+  id: string, //identify which plant we are editing
+) {
+  try {
+    const currentUserId = await getUserId();
+    if (!currentUserId) return;
+
+    const deletedPlant = await prisma.plants.delete({
+      where: { id },
+    });
+    revalidatePath("/plants");
+    return deletedPlant;
+  } catch (error) {
+    console.error("Error deleting plant:", error);
     throw error;
   }
 }
