@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 import { Skeleton } from "./ui/skeleton";
 import { isMapIterator } from "util/types";
 import CreateDialog from "./CreateDialog";
+import EditDialog from "./EditDialog";
+import DeleteDialog from "./DeleteDialog";
 
 type Plants = Awaited<ReturnType<typeof getPlants>>;
 
@@ -157,7 +159,16 @@ export default function InventoryTable({ plants }: InventoryTableProps) {
                     <TableCell>{plant.name}</TableCell>
                     <TableCell>{plant.category}</TableCell>
                     <TableCell>{plant.price}</TableCell>
-                    <TableCell>{plant.stock}</TableCell>
+                    <TableCell>{plant.stock}</TableCell>{" "}
+                    <TableCell className="text-right">
+                      <div
+                        className="flex justify-end space-x-4"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <EditDialog plant={plant} />
+                        <DeleteDialog plant={plant} />
+                      </div>
+                    </TableCell>
                   </TableRow>
                 );
               })}
