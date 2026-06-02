@@ -101,88 +101,93 @@ export default function InventoryTable({ plants }: InventoryTableProps) {
   }
 
   return (
-    <div className="w-full min-h-screen bg-muted/20">
-      <div className="w-full h-screen flex flex-col bg-background p-6">
+    <div className="min-h-screen bg-muted/20">
+      <div className="container mx-auto px-4 py-6">
         {/* Filters */}
-        <div className="flex flex-col md:flex-row items-center gap-4 mb-6">
-          <div className="relative w-full">
+        <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center">
+          <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
 
             <Input
               placeholder="Filter plants..."
-              className="pl-10 h-12 rounded-xl"
+              className="h-11 rounded-xl pl-10 shadow-sm"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
 
-          <div className="w-full md:w-62.5">
+          <div className="w-full lg:w-64">
             <Combobox
               value={selectedCategory}
               onChange={(val) => setSelectedCategory(val)}
             />
           </div>
+
           <CreateDialog />
         </div>
 
         {/* Table */}
-        <div className="flex-1 overflow-hidden rounded-2xl border bg-background shadow-sm">
-          <Table>
-            <TableCaption className="py-5 text-muted-foreground">
-              A list of your recent invoices.
-            </TableCaption>
+        <div className="overflow-hidden rounded-2xl border bg-background shadow-sm">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableCaption className="py-4 text-muted-foreground">
+                Manage your plant inventory.
+              </TableCaption>
 
-            <TableHeader className="bg-muted/50">
-              <TableRow>
-                <TableHead className="font-semibold">Name</TableHead>
-                <TableHead className="font-semibold">Category</TableHead>
-                <TableHead className="font-semibold">Price</TableHead>
-                <TableHead className="font-semibold">Stock</TableHead>
-                <TableHead className="font-semibold">Action</TableHead>
-              </TableRow>
-            </TableHeader>
+              <TableHeader className="sticky top-0 bg-muted/50 backdrop-blur">
+                <TableRow>
+                  <TableHead className="font-semibold">Name</TableHead>
+                  <TableHead className="font-semibold">Category</TableHead>
+                  <TableHead className="font-semibold">Price</TableHead>
+                  <TableHead className="font-semibold">Stock</TableHead>
+                  <TableHead className="text-right font-semibold">
+                    Action
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
 
-            <TableBody>
-              {filteredPlants?.map((plant) => {
-                const slugifiedName = plant.name
-                  .toLowerCase()
-                  .replace(/\s+/g, "-");
-                const slug = `${plant.id}--${slugifiedName}`;
-                const planturl = `/plants/${slug}`;
+              <TableBody>
+                {filteredPlants?.map((plant) => {
+                  const slugifiedName = plant.name
+                    .toLowerCase()
+                    .replace(/\s+/g, "-");
 
-                return (
-                  <TableRow
-                    key={plant.id}
-                    onClick={() => router.push(planturl)}
-                    className="transition-colors hover:bg-muted/40"
-                  >
-                    <TableCell>{plant.name}</TableCell>
-                    <TableCell>{plant.category}</TableCell>
-                    <TableCell>{plant.price}</TableCell>
-                    <TableCell>{plant.stock}</TableCell>{" "}
-                    <TableCell className="text-right">
-                      <div
-                        className="flex justify-end space-x-4"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <EditDialog plant={plant} />
-                        <DeleteDialog plant={plant} />
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
+                  const slug = `${plant.id}--${slugifiedName}`;
+                  const planturl = `/plants/${slug}`;
 
-            <TableFooter className="bg-muted/30">
-              <TableRow>
-                <TableCell colSpan={3} className="font-semibold">
-                  Total
-                </TableCell>
-                <TableCell className="font-semibold">$2,500.00</TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
+                  return (
+                    <TableRow
+                      key={plant.id}
+                      onClick={() => router.push(planturl)}
+                      className="cursor-pointer transition-all hover:bg-muted/40"
+                    >
+                      <TableCell className="font-medium">
+                        {plant.name}
+                      </TableCell>
+
+                      <TableCell>{plant.category}</TableCell>
+
+                      <TableCell>${Number(plant.price).toFixed(2)}</TableCell>
+
+                      <TableCell>{plant.stock}</TableCell>
+
+                      <TableCell className="text-right">
+                        <div
+                          className="flex justify-end gap-2"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <EditDialog plant={plant} />
+                          <DeleteDialog plant={plant} />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+
+              <TableFooter className="bg-muted/30"></TableFooter>
+            </Table>
+          </div>
         </div>
       </div>
     </div>
