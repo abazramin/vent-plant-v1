@@ -55,36 +55,44 @@ export default function CreateDialog() {
       <AlertDialogTrigger asChild>
         <Button
           variant="default"
-          className="ml-auto font-bold flex items-center gap-2"
+          className="ml-auto flex items-center gap-2 rounded-xl font-semibold shadow-sm transition-all hover:shadow-md"
           asChild
         >
           <span>
-            <Sprout className="w-4 h-4" />
+            <Sprout className="h-4 w-4" />
             Add Plant
           </span>
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Add a Plant</AlertDialogTitle>
-          <AlertDialogDescription>
+
+      <AlertDialogContent className="w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl">
+        <AlertDialogHeader className="space-y-2">
+          <AlertDialogTitle className="flex items-center gap-2 text-2xl font-bold">
+            <Sprout className="h-5 w-5 text-primary" />
+            Add a Plant
+          </AlertDialogTitle>
+
+          <AlertDialogDescription className="text-muted-foreground">
             Fill out the form below to add a new plant to your inventory.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name & Category */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
               <Input
                 id="name"
                 type="text"
+                className="h-11"
                 placeholder="Enter name"
                 value={formData.name}
                 onChange={(e) => handleChange("name", e.target.value)}
               />
             </div>
-            <div>
+
+            <div className="space-y-2">
               <Label htmlFor="category">Category</Label>
               <Combobox
                 value={formData.category}
@@ -92,30 +100,40 @@ export default function CreateDialog() {
               />
             </div>
           </div>
-          <Label htmlFor="description">Description</Label>
-          <Textarea
-            id="description"
-            placeholder="Type your message here."
-            rows={5}
-            value={formData.description}
-            onChange={(e) => handleChange("description", e.target.value)}
-          />
-          <div className="grid grid-cols-2 gap-4">
-            <div>
+
+          {/* Description */}
+          <div className="space-y-2">
+            <Label htmlFor="description">Description</Label>
+            <Textarea
+              id="description"
+              rows={5}
+              className="min-h-[120px] resize-none"
+              placeholder="Type your message here."
+              value={formData.description}
+              onChange={(e) => handleChange("description", e.target.value)}
+            />
+          </div>
+
+          {/* Stock & Price */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-2">
               <Label htmlFor="stock">Stock</Label>
               <Input
                 id="stock"
                 type="number"
+                className="h-11"
                 placeholder="Enter stock quantity"
                 value={formData.stock}
                 onChange={(e) => handleChange("stock", Number(e.target.value))}
               />
             </div>
-            <div>
+
+            <div className="space-y-2">
               <Label htmlFor="price">Price</Label>
               <Input
                 id="price"
                 type="number"
+                className="h-11"
                 placeholder="Enter price"
                 value={formData.price}
                 onChange={(e) => handleChange("price", Number(e.target.value))}
@@ -123,8 +141,10 @@ export default function CreateDialog() {
             </div>
           </div>
 
-          {/*Image Upload*/}
-          <div className="py-5">
+          {/* Image Upload */}
+          <div className="rounded-xl border bg-muted/30 p-4">
+            <Label className="mb-3 block">Plant Image</Label>
+
             <ImageUpload
               endpoint="postImage"
               value={formData.imageUrl}
@@ -133,9 +153,15 @@ export default function CreateDialog() {
               }}
             />
           </div>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction type="submit">Submit</AlertDialogAction>
+
+          <AlertDialogFooter className="gap-2">
+            <AlertDialogCancel className="w-full sm:w-auto">
+              Cancel
+            </AlertDialogCancel>
+
+            <AlertDialogAction type="submit" className="w-full sm:w-auto">
+              Submit
+            </AlertDialogAction>
           </AlertDialogFooter>
         </form>
       </AlertDialogContent>
